@@ -1,184 +1,716 @@
 <!DOCTYPE html>
-<!-- @falvojr: Reference article https://www.w3schools.com/howto/howto_website_create_resume.asp -->
-<!-- @falvojr: Useful link to use fontawesome (fa) icons: https://fontawesome.com/v4/icons/ -->
 <html lang="pt-BR">
-
-  <head>
-    <title>Maricélia Mussi</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maricélia Mussi - Portfólio</title>
+    <!-- Ícones (Font Awesome para facilidade) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
     <style>
-      html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+        /* --- VARIÁVEIS (Cores Estilo GitHub Dark Dimmed) --- */
+        :root {
+            --bg-main: #0d1117;
+            --bg-secondary: #161b22; /* Header, Cards */
+            --bg-tertiary: #21262d; /* Buttons, badges */
+            
+            --border-default: #30363d;
+            --border-hover: #8b949e;
+            
+            --text-main: #c9d1d9;
+            --text-muted: #8b949e;
+            --text-link: #58a6ff;
+            
+            --accent-orange: #f78166; /* Tab ativa */
+            --accent-green: #238636; /* Botões primários */
+            
+            --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+        }
+
+        /* --- RESET & GLOBAL --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: var(--font-stack);
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        a:hover { color: var(--text-link); text-decoration: underline; }
+
+        ul { list-style: none; }
+
+        /* --- LAYOUT --- */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px; /* Padding ajustado para mobile */
+            display: flex;
+            flex-wrap: wrap; /* Para mobile */
+            gap: 24px;
+        }
+
+        /* --- HEADER --- */
+        header {
+            background-color: var(--bg-secondary);
+            padding: 16px 32px;
+            border-bottom: 1px solid var(--border-default);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 32px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-github {
+            color: #fff;
+            font-size: 32px;
+        }
+
+        .search-bar {
+            background-color: var(--bg-main);
+            border: 1px solid var(--border-default);
+            color: var(--text-main);
+            padding: 5px 12px;
+            border-radius: 6px;
+            width: 300px;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        .search-bar:focus {
+            border-color: var(--text-link);
+            outline: none;
+            width: 320px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 16px;
+            font-weight: 600;
+            color: #fff;
+            margin-left: auto; /* Empurra para direita */
+        }
+        .nav-links span:hover { color: var(--text-muted); cursor: pointer; }
+
+        /* Mobile Header Adjustments */
+        @media (max-width: 768px) {
+            .search-bar, .nav-links { display: none; }
+            header { justify-content: center; }
+        }
+
+        /* --- SIDEBAR (PERFIL) --- */
+        .sidebar {
+            width: 296px; /* Largura padrão GitHub */
+            flex-shrink: 0;
+            position: relative;
+            top: -30px; /* Efeito "sobreposto" visual */
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar { width: 100%; top: 0; }
+        }
+
+        .avatar-container {
+            position: relative;
+            margin-bottom: 16px;
+        }
+
+        .avatar {
+            width: 100%;
+            aspect-ratio: 1/1;
+            border-radius: 50%;
+            border: 1px solid var(--border-default);
+            overflow: hidden;
+            background-color: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 80px;
+            font-weight: bold;
+        }
+
+        .status-bubble {
+            position: absolute;
+            bottom: 10%;
+            right: 0;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-default);
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .profile-names h1 {
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 1.25;
+            color: var(--text-main);
+        }
+        .profile-names .username {
+            font-size: 20px;
+            font-weight: 300;
+            color: var(--text-muted);
+        }
+
+        .profile-bio {
+            margin-top: 16px;
+            font-size: 16px;
+            color: var(--text-main);
+        }
+
+        .btn-edit-profile {
+            width: 100%;
+            margin-top: 16px;
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-default);
+            color: var(--text-main);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-edit-profile:hover { background-color: var(--border-default); }
+
+        .profile-details {
+            margin-top: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            color: var(--text-main);
+        }
+        .profile-detail-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .profile-detail-item i { color: var(--text-muted); width: 16px; text-align: center;}
+
+        /* --- MAIN CONTENT --- */
+        .main-content {
+            flex: 1;
+            min-width: 0; /* Previne overflow em flex items */
+        }
+
+        /* Tabs Navigation */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-default);
+            margin-bottom: 24px;
+            overflow-x: auto; /* Scroll horizontal no mobile */
+            white-space: nowrap;
+        }
+
+        .tab-item {
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-main);
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        
+        .tab-item:hover {
+            background-color: rgba(177, 186, 196, 0.12);
+            border-radius: 6px 6px 0 0;
+        }
+
+        .tab-item.active {
+            font-weight: 600;
+            border-bottom-color: var(--accent-orange);
+        }
+        
+        .tab-item i { color: var(--text-muted); }
+        .counter {
+            background-color: rgba(110, 118, 129, 0.4);
+            color: var(--text-main);
+            padding: 0 6px;
+            border-radius: 10px;
+            font-size: 12px;
+        }
+
+        /* Readme Box */
+        .readme-box {
+            border: 1px solid var(--border-default);
+            border-radius: 6px;
+            background-color: var(--bg-main);
+            margin-bottom: 24px;
+        }
+        .readme-header {
+            background-color: var(--bg-secondary);
+            padding: 8px 16px;
+            border-bottom: 1px solid var(--border-default);
+            border-radius: 6px 6px 0 0;
+            font-family: monospace;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .readme-body {
+            padding: 32px;
+            font-size: 16px;
+        }
+        .readme-body h2 { border-bottom: 1px solid var(--border-default); padding-bottom: 0.3em; margin-bottom: 16px; margin-top: 24px;}
+        .readme-body h3 { margin-top: 24px; margin-bottom: 16px; }
+        .readme-body p { margin-bottom: 16px; }
+        .readme-body ul { list-style: disc; padding-left: 2em; margin-bottom: 16px; color: var(--text-muted); }
+        .readme-body hr { border: 0; border-bottom: 1px solid var(--border-default); margin: 24px 0; }
+        .tech-icons { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+        .tech-icons img { transition: transform 0.2s; }
+        .tech-icons img:hover { transform: scale(1.1); }
+
+        /* Pinned Repos Grid */
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 8px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .pinned-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .repo-card {
+            border: 1px solid var(--border-default);
+            border-radius: 6px;
+            padding: 16px;
+            background-color: var(--bg-main);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+        .repo-card-top { margin-bottom: 16px; }
+        .repo-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .repo-name { font-weight: 600; color: var(--text-link); font-size: 14px; }
+        .repo-badge {
+            border: 1px solid var(--border-default);
+            border-radius: 10px;
+            padding: 0 7px;
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .repo-desc { color: var(--text-muted); font-size: 12px; margin-top: 8px;}
+        
+        .repo-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .language-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 4px;
+        }
+
+        /* Timeline (Contributions) */
+        .timeline {
+            margin-left: 16px;
+            padding-left: 16px;
+            border-left: 1px solid var(--border-default);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 32px;
+        }
+        .timeline-icon {
+            position: absolute;
+            left: -33px; /* Ajuste manual para alinhar no centro da linha */
+            top: 0;
+            background-color: var(--bg-tertiary);
+            border: 2px solid var(--bg-main);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+        .timeline-content { margin-top: 4px; }
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+        }
+        .timeline-box {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-default);
+            border-radius: 6px;
+            padding: 16px;
+        }
+
+        /* Contribution Graph Visual (Fake) */
+        .contrib-graph {
+            display: flex;
+            gap: 3px;
+            margin-top: 8px;
+        }
+        .contrib-col { display: flex; flex-direction: column; gap: 3px; }
+        .contrib-cell { width: 10px; height: 10px; border-radius: 2px; }
+        .c-0 { background-color: #161b22; }
+        .c-1 { background-color: #0e4429; }
+        .c-2 { background-color: #006d32; }
+        .c-3 { background-color: #26a641; }
+        .c-4 { background-color: #39d353; }
+
+        /* Footer */
+        footer {
+            margin-top: 48px;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            border-top: 1px solid var(--border-default);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .footer-left { display: flex; align-items: center; gap: 10px; }
+        .footer-links { display: flex; gap: 16px; }
+
     </style>
-    
-  </head>
+</head>
+<body>
 
-  <body class="w3-light-grey" cz-shortcut-listen="true">
-  
-    <!-- Page Container -->
-    <div class="w3-content w3-margin-top" style="max-width:1400px;">
-  
-      <!-- The Grid -->
-      <div class="w3-row-padding">
-  
-        <!-- Left Column -->
-        <div class="w3-third">
-  
-          <div class="w3-white w3-text-grey w3-card-4">
-            <!-- @falvojr: This container has been modified to not use a profile picture. -->
-            <div class="w3-container">
-              <h2>Maricélia Mussi</h2>
-            </div>
-            <div class="w3-container">
-              <p><i class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"></i>Developer full stack junior</p>
-              <p><i class="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal"></i>Indaiatuba-SP</p>
-              <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>maricelia.mussi@gmail.com</p>
-              <p><i class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal"></i>(19)98398-7924</p>
-              <hr>
-  
-              <p class="w3-large">
-                <b><i class="fa fa-asterisk fa-fw w3-margin-right w3-text-teal"></i>Skills</b>
-              </p>
-              <p>HTML</p>
-              <div class="w3-light-grey w3-round-xlarge w3-small">
-                <div class="w3-container w3-center w3-round-xlarge w3-teal" style="width:100%">100%</div>
-              </div>
-              <p>CSS</p>
-              <div class="w3-light-grey w3-round-xlarge w3-small">
-                <div class="w3-container w3-center w3-round-xlarge w3-teal" style="width:80%">80%</div>
-              </div>
-              <p>JavaScript</p>
-              <div class="w3-light-grey w3-round-xlarge w3-small">
-                <div class="w3-container w3-center w3-round-xlarge w3-teal" style="width:50%">60%</div>
-              </div>
-              <p>TypeScript</p>
-              <div class="w3-light-grey w3-round-xlarge w3-small">
-                <div class="w3-container w3-center w3-round-xlarge w3-teal" style="width:50%">50%</div>
-              </div>
-              <br>
-  
-              <p class="w3-large w3-text-theme">
-                <b><i class="fa fa-globe fa-fw w3-margin-right w3-text-teal"></i>Idiomas</b>
-              </p>
-              <p>Português</p>
-              <div class="w3-light-grey w3-round-xlarge">
-                <div class="w3-round-xlarge w3-teal" style="height:24px;width:100%"></div>
-              </div>
-              <p>Inglês</p>
-              <div class="w3-light-grey w3-round-xlarge">
-                <div class="w3-round-xlarge w3-teal" style="height:24px;width:25%"></div>
-              </div>
-              <p>Italiano</p>
-              <div class="w3-light-grey w3-round-xlarge">
-                <div class="w3-round-xlarge w3-teal" style="height:24px;width:20%"></div>
-              </div>
-              <br>
-            </div>
-          </div><br>
-  
-          <!-- End Left Column -->
+    <!-- NAVBAR -->
+    <header>
+        <div class="logo-github">
+            <i class="fab fa-github"></i>
         </div>
-  
-        <!-- Right Column -->
-        <div class="w3-twothird">
-    
-          <div class="w3-container w3-card w3-white w3-margin-bottom">
-            <div class="w3-container w3-card w3-white w3-margin-bottom">
-              <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-user-o" aria-hidden="true"></i>Sobre</h2>
-            <p>Sou formada em Tecnologia em Sistemas para Internet pela UNICESUMAR. Minha jornada mistura experiências como recepcionista, auxiliar administrativo e freelancer em desenvolvimento web e Web design. Hoje, meu foco é me tornar developer full stack, aprimorando minhas habilidades em JavaScript, React e Node.js. Minha paixão por tecnologia e minha formação me preparam para contribuir com soluções inovadoras. Estou aberta a novas oportunidades e desafios na área de desenvolvimento.
-            </p>
-          </div>
+        <input type="text" class="search-bar" placeholder="Search or jump to...">
+        <nav class="nav-links">
+            <span>Pull requests</span>
+            <span>Issues</span>
+            <span>Codespaces</span>
+            <span>Marketplace</span>
+            <span>Explore</span>
+        </nav>
+    </header>
 
-          <div class="w3-container w3-card w3-white w3-margin-bottom">
-            <h2 class="w3-text-grey w3-padding-16">
-              <i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Experiências
-            </h2>
-            <div class="w3-container">
-              <h5 class="w3-opacity"><b>Freelancer</b></h5>
-              <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Setembro 2022 - <span class="w3-tag w3-teal w3-round">Atual</span></h6>
-              <p>Hoje atuo na criação de designs visuais, criação de aplicação web e suporte na configuração de emails personalizados e domínios usando as ferramentas do Google Workspace. 
-              </p>
-              <hr>
+    <div class="container">
+        <!-- SIDEBAR (Esquerda) -->
+        <aside class="sidebar">
+            <div class="avatar-container">
+                <div class="avatar">MM</div> <!-- Substituir por <img src="..." class="avatar"> -->
+                <div class="status-bubble">
+                    <i class="fas fa-terminal"></i>
+                </div>
             </div>
-            <!-- <div class="w3-container">
-              <h5 class="w3-opacity"><b>Freelancer</b></h5>
-              <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>INICIO - FIM</h6>
-              <p>TODO</p>
-            </div> -->
-          </div>
-  
-          <div class="w3-container w3-card w3-white">
-            <h2 class="w3-text-grey w3-padding-16">
-              <i class="fa fa-graduation-cap fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Educação
-            </h2>
-            <div class="w3-container">
-              <h5 class="w3-opacity"><b>Digital Innovation One (DIO)</b></h5>
-              <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>INICIO - <span class="w3-tag w3-teal w3-round">Atual</span></h6>
-              <p>
-                Maior plataforma de educação aberta em TI da América Latina, com mais 1 milhão de usuários. 
-                A DIO possui parcerias com algumas das empresas mais inovadoras do mundo, proporcionando experiências 
-                de ensino imersivas e com foco em empregabilidade. Nesse contexto, seguem meus principais certificados:
-              </p>
-              <!-- <ul>
-                <li><a href="LINK_CERTIFICADO" target="_blank">TODO</a></li>
-                <li><a href="LINK_CERTIFICADO" target="_blank">TODO</a></li>
-                <li><a href="LINK_CERTIFICADO" target="_blank">TODO</a></li>
-              </ul> -->
-              <hr>
-            </div>
-            <!-- <div class="w3-container">
-              <h5 class="w3-opacity"><b>TODO</b></h5>
-              <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>INICIO - FIM</h6>
-              <p>TODO</p>
-            </div> -->
-          </div>
 
-          <div class="w3-container w3-card w3-white w3-margin-bottom">
-            <h2 class="w3-text-grey w3-padding-16">
-              <i class="fa fa-git fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Projetos
-            </h2>
-            <div class="w3-container">
-              <h6 class="w3-text-teal">
-                <i class="fa fa-github fa-fw w3-margin-right"></i>
-                <a href="https://github.com/mariceliamussi?tab=repositories" target="_blank">mariceliamussi/repositories</a>
-              </h6>
-              <!-- <p>TODO</p> -->
-              <hr>
+            <div class="profile-names">
+                <h1>Maricélia Mussi</h1>
+                <div class="username">mariceliamussi</div>
             </div>
-            <!-- <div class="w3-container">
-              <h6 class="w3-text-teal">
-                <i class="fa fa-gitlab fa-fw w3-margin-right"></i>
-                <a href="LINK_GITLAB" target="_blank">USUARIO_GITLAB/REPO</a>
-              </h6>
-              <p>TODO</p>
-            </div> -->
-          </div>
-  
-          <!-- End Right Column -->
-        </div>
-  
-        <!-- End Grid -->
-      </div>
-  
-      <!-- End Page Container -->
+
+            <div class="profile-bio">
+                Desenvolvedora de Sistemas para Internet em especialização em IA & Machine Learning. Focada em criar soluções inteligentes e automatizar o mundo com Python.
+            </div>
+
+            <button class="btn-edit-profile">Edit profile</button>
+
+            <div class="profile-details">
+                <div class="profile-detail-item" style="margin: 16px 0;">
+                    <i class="fas fa-user-friends"></i>
+                    <span style="font-weight: bold; color: var(--text-main);">14</span>&nbsp;followers · 
+                    <span style="font-weight: bold; color: var(--text-main);">23</span>&nbsp;following
+                </div>
+                
+                <div class="profile-detail-item">
+                    <i class="fas fa-map-marker-alt"></i> Indaiatuba-SP
+                </div>
+                <div class="profile-detail-item">
+                    <i class="far fa-envelope"></i> 
+                    <a href="mailto:maricelia.mussi@gmail.com">maricelia.mussi@gmail.com</a>
+                </div>
+                <div class="profile-detail-item">
+                    <i class="fas fa-link"></i> 
+                    <a href="https://github.com/mariceliamussi" target="_blank">github.com/mariceliamussi</a>
+                </div>
+            </div>
+
+            <hr style="border: 0; border-bottom: 1px solid var(--border-default); margin: 24px 0;">
+            
+            <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">Achievements</h3>
+            <div style="display: flex; gap: 8px;">
+                <img src="https://github.githubassets.com/images/modules/profile/achievements/pull-shark-default.png" width="64" alt="Shark">
+                <img src="https://github.githubassets.com/images/modules/profile/achievements/yolo-default.png" width="64" alt="Yolo">
+            </div>
+        </aside>
+
+        <!-- CONTEÚDO PRINCIPAL (Direita) -->
+        <main class="main-content">
+            
+            <!-- Tabs do Perfil -->
+            <div class="tabs">
+                <div class="tab-item active">
+                    <i class="fas fa-book-open"></i> Overview
+                </div>
+                <div class="tab-item">
+                    <i class="fas fa-book"></i> Repositories <span class="counter">4</span>
+                </div>
+                <div class="tab-item">
+                    <i class="fas fa-chart-bar"></i> Projects
+                </div>
+                <div class="tab-item">
+                    <i class="fas fa-cube"></i> Packages
+                </div>
+            </div>
+
+            <!-- README SECTION -->
+            <div class="readme-box">
+                <div class="readme-header">
+                    <span>mariceliamussi / README.md</span>
+                    <i class="fas fa-pen" style="cursor: pointer;"></i>
+                </div>
+                <div class="readme-body">
+                    <h2 style="margin-top: 0;">👋 Olá, eu sou a Maricélia Mussi!</h2>
+                    <p>
+                        Desenvolvedora de <strong>Sistemas para Internet</strong> em especialização em <strong>IA & Machine Learning</strong>.<br>
+                        Focada em criar soluções inteligentes e automatizar o mundo com <strong>Python</strong>.
+                    </p>
+
+                    <h3>🎓 Formação e Foco Atual</h3>
+                    <ul>
+                        <li><strong>Graduação:</strong> Tecnóloga em Sistemas para Internet.</li>
+                        <li><strong>Pós-Graduação:</strong> Inteligência Artificial e Machine Learning.</li>
+                        <li><strong>Estudos Atuais:</strong> Automação de processos e Web Scraping com Python.</li>
+                    </ul>
+
+                    <h3>🛠️ Tecnologias e Ferramentas</h3>
+                    
+                    <h4 style="margin-bottom: 10px; font-weight: 600;">🐍 Inteligência Artificial & Automação</h4>
+                    <div class="tech-icons">
+                        <img height="40" width="50" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="Python">
+                        <img height="40" width="50" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/pandas/pandas-original.svg" alt="Pandas">
+                        <img height="40" width="50" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/numpy/numpy-original.svg" alt="Numpy">
+                    </div>
+
+                    <h4 style="margin-bottom: 10px; font-weight: 600; margin-top: 24px;">🌐 Desenvolvimento Web</h4>
+                    <div class="tech-icons">
+                        <img height="40" width="50" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-plain.svg" alt="JS">
+                        <img height="40" width="50" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" alt="React">
+                        <img height="40" width="50" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg" alt="HTML">
+                        <img height="40" width="50" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original.svg" alt="CSS">
+                    </div>
+                </div>
+            </div>
+
+            <!-- PINNED REPOSITORIES -->
+            <div class="section-title">
+                <span>Pinned</span>
+                <span style="font-size: 12px; color: var(--text-muted); cursor: pointer;">Customize your pins</span>
+            </div>
+
+            <div class="pinned-grid">
+                <!-- Card 1 -->
+                <div class="repo-card">
+                    <div class="repo-card-top">
+                        <div class="repo-header">
+                            <i class="fas fa-book" style="color: var(--text-muted);"></i>
+                            <a href="#" class="repo-name">ai-machine-learning-study</a>
+                            <span class="repo-badge">Public</span>
+                        </div>
+                        <p class="repo-desc">Estudos em IA, Pandas e Numpy com foco em análise de dados.</p>
+                    </div>
+                    <div class="repo-meta">
+                        <span><span class="language-dot" style="background-color: #3572A5;"></span>Python</span>
+                        <span><i class="far fa-star"></i> 12</span>
+                        <span><i class="fas fa-code-branch"></i> 4</span>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="repo-card">
+                    <div class="repo-card-top">
+                        <div class="repo-header">
+                            <i class="fas fa-book" style="color: var(--text-muted);"></i>
+                            <a href="#" class="repo-name">python-automation-scripts</a>
+                            <span class="repo-badge">Public</span>
+                        </div>
+                        <p class="repo-desc">Scripts de automação e Web Scraping para produtividade.</p>
+                    </div>
+                    <div class="repo-meta">
+                        <span><span class="language-dot" style="background-color: #3572A5;"></span>Python</span>
+                        <span><i class="far fa-star"></i> 28</span>
+                        <span><i class="fas fa-code-branch"></i> 8</span>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="repo-card">
+                    <div class="repo-card-top">
+                        <div class="repo-header">
+                            <i class="fas fa-book" style="color: var(--text-muted);"></i>
+                            <a href="#" class="repo-name">fullstack-web-projects</a>
+                            <span class="repo-badge">Public</span>
+                        </div>
+                        <p class="repo-desc">Aplicações completas usando React.js e Node.js.</p>
+                    </div>
+                    <div class="repo-meta">
+                        <span><span class="language-dot" style="background-color: #2b7489;"></span>TypeScript</span>
+                        <span><i class="far fa-star"></i> 15</span>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="repo-card">
+                    <div class="repo-card-top">
+                        <div class="repo-header">
+                            <i class="fas fa-book" style="color: var(--text-muted);"></i>
+                            <a href="#" class="repo-name">data-science-notebooks</a>
+                            <span class="repo-badge">Public</span>
+                        </div>
+                        <p class="repo-desc">Jupyter Notebooks com análises exploratórias.</p>
+                    </div>
+                    <div class="repo-meta">
+                        <span><span class="language-dot" style="background-color: #DA5B0B;"></span>Jupyter</span>
+                        <span><i class="far fa-star"></i> 9</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTRIBUTION / TIMELINE -->
+            <div class="section-title" style="margin-bottom: 16px;">
+                <span>Contribution activity</span>
+            </div>
+
+            <div class="timeline">
+                
+                <!-- Item: Pós Graduação -->
+                <div class="timeline-item">
+                    <div class="timeline-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <span style="font-size: 14px;">Started Pós-Graduação at <strong>Instituição de Ensino</strong></span>
+                            <span style="font-size: 12px; color: var(--text-muted);">Em andamento</span>
+                        </div>
+                        <div style="font-size: 12px; color: var(--text-muted);">
+                            Course: Inteligência Artificial e Machine Learning
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item: Freelancer -->
+                <div class="timeline-item">
+                    <div class="timeline-icon"><i class="fas fa-briefcase"></i></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <span style="font-size: 14px;">Created a work experience at <strong>Autônoma</strong></span>
+                            <span style="font-size: 12px; color: var(--text-muted);">Set 2022 - Atual</span>
+                        </div>
+                        <div class="timeline-box">
+                            <h4 style="font-size: 14px; margin-bottom: 4px;">Freelancer</h4>
+                            <p style="font-size: 12px; color: var(--text-muted);">
+                                Criação de designs visuais, aplicações web e suporte na configuração de Google Workspace.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item: UNICESUMAR -->
+                <div class="timeline-item">
+                    <div class="timeline-icon"><i class="fas fa-university"></i></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <span style="font-size: 14px;">Graduated from <strong>UNICESUMAR</strong></span>
+                            <span style="font-size: 12px; color: var(--text-muted);">Concluído</span>
+                        </div>
+                        <div style="font-size: 12px; color: var(--text-muted);">
+                            Course: Tecnologia em Sistemas para Internet
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity Graph (Static Visual) -->
+                <div class="timeline-item">
+                     <div class="timeline-icon"><i class="fas fa-calendar-alt"></i></div>
+                     <div class="timeline-content">
+                        <span style="font-size: 14px;">2026 contributions</span>
+                        <div class="contrib-graph">
+                            <!-- Gerando colunas de "quadradinhos" para simular o gráfico -->
+                            <!-- Apenas um exemplo visual simples em HTML -->
+                            <div style="display: flex; gap: 2px;">
+                                <div style="display: grid; grid-template-rows: repeat(7, 10px); gap: 2px;">
+                                    <div class="c-1 contrib-cell"></div><div class="c-0 contrib-cell"></div><div class="c-2 contrib-cell"></div>
+                                    <div class="c-0 contrib-cell"></div><div class="c-3 contrib-cell"></div><div class="c-1 contrib-cell"></div><div class="c-0 contrib-cell"></div>
+                                </div>
+                                <div style="display: grid; grid-template-rows: repeat(7, 10px); gap: 2px;">
+                                    <div class="c-0 contrib-cell"></div><div class="c-4 contrib-cell"></div><div class="c-0 contrib-cell"></div>
+                                    <div class="c-1 contrib-cell"></div><div class="c-0 contrib-cell"></div><div class="c-2 contrib-cell"></div><div class="c-1 contrib-cell"></div>
+                                </div>
+                                <div style="display: grid; grid-template-rows: repeat(7, 10px); gap: 2px;">
+                                    <div class="c-3 contrib-cell"></div><div class="c-0 contrib-cell"></div><div class="c-0 contrib-cell"></div>
+                                    <div class="c-2 contrib-cell"></div><div class="c-4 contrib-cell"></div><div class="c-0 contrib-cell"></div><div class="c-0 contrib-cell"></div>
+                                </div>
+                                <!-- Mais colunas para preencher visualmente -->
+                                <div style="display: grid; grid-template-rows: repeat(7, 10px); gap: 2px;">
+                                    <div class="c-0 contrib-cell"></div><div class="c-1 contrib-cell"></div><div class="c-3 contrib-cell"></div>
+                                    <div class="c-0 contrib-cell"></div><div class="c-0 contrib-cell"></div><div class="c-1 contrib-cell"></div><div class="c-2 contrib-cell"></div>
+                                </div>
+                                <div style="display: grid; grid-template-rows: repeat(7, 10px); gap: 2px;">
+                                    <div class="c-4 contrib-cell"></div><div class="c-2 contrib-cell"></div><div class="c-0 contrib-cell"></div>
+                                    <div class="c-1 contrib-cell"></div><div class="c-3 contrib-cell"></div><div class="c-0 contrib-cell"></div><div class="c-0 contrib-cell"></div>
+                                </div>
+                            </div>
+                            <span style="font-size: 12px; color: var(--text-muted); align-self: flex-end; margin-left: 8px;">
+                                Learn how we count contributions
+                            </span>
+                        </div>
+                     </div>
+                </div>
+
+            </div>
+
+        </main>
     </div>
-  
-    <footer class="w3-container w3-teal w3-center w3-margin-top">
-      <p>Minhas Redes Sociais</p>
-      <a href="LINK_GITHUB" target="_blank"><i class="fa fa-github w3-hover-opacity"></i></a>
-      <a href="LINK_LINKEDIN" target="_blank"><i class="fa fa-linkedin w3-hover-opacity"></i></a>
-      <a href="LINK_FACEBOOK" target="_blank"><i class="fa fa-facebook-official w3-hover-opacity"></i></a>
-      <a href="LINK_INSTAGRAM" target="_blank"><i class="fa fa-instagram w3-hover-opacity"></i></a>
-      <a href="LINK_TWITTER" target="_blank"><i class="fa fa-twitter w3-hover-opacity"></i></a>
-      <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
-    </footer>
-  
-  </body>
 
+    <footer>
+        <div class="container" style="display: flex; justify-content: space-between; width: 100%;">
+            <div class="footer-left">
+                <i class="fab fa-github" style="font-size: 24px; color: var(--text-muted);"></i>
+                <span>© 2026 Maricélia Mussi</span>
+            </div>
+            <div class="footer-links">
+                <a href="#">Terms</a>
+                <a href="#">Privacy</a>
+                <a href="#">Security</a>
+                <a href="#">Status</a>
+                <a href="#">Docs</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
 </html>
